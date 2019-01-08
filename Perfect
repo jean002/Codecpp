@@ -1,0 +1,84 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Perfect
+{
+public:
+	int divisor(int m, int n)
+	{
+		
+		for (int k = 0; k <= m; ++k)
+
+		{
+			int d;
+			
+			d = m - (k*n);
+			
+			if (d < 0)
+				continue;
+
+			if (d == 0)
+				return 1;
+		}
+
+	}
+
+	string isPerfect(int m)
+	{
+		int add = 0;
+		
+		for (int j = 1; j <= m - 1; ++j)
+		{
+			if (divisor(m, m - j) == 1)
+			{
+				
+				add = add + (m - j);
+								
+			}
+
+			
+		}   
+
+		if (add == m)
+			return "Cool!";
+		else
+			return "Oops!";
+	}
+
+};
+
+int main()
+{
+	int m = 0;
+	int n = 0;
+	
+
+	Perfect divide;
+	divide.divisor(m, n);
+
+	// Determine if a positive integer is perfect.
+
+	cout << "Enter a positive integer.";
+	cin >> m;
+
+	cout << divide.isPerfect(m) << endl;
+
+	// List perfect numbers with their divisors.
+
+	for (int i = 1; i <= 1000; ++i)
+	{
+		if (divide.isPerfect(i) == "Cool!")
+			cout << i << "<--" << endl;
+		    
+		for (int j = 1; j <= i - 1; ++j)
+		{
+			if (divide.isPerfect(i) == "Cool!" && divide.divisor(i, i - j) == 1)
+				cout << i - j << endl;
+		}
+
+	}
+
+	cout << endl;
+	
+}
