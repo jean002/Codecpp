@@ -1,0 +1,112 @@
+//A program that determines if a positive integer is prime
+
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+class Prime
+{
+public:
+	
+	// A function that determines if an integer is even or odd
+
+	string par(int n)
+	{
+		int d = -1;
+
+		d = n % 2;
+
+		if (d == 0)
+			return  "Even.";
+		else
+			return "Odd.";
+	}
+
+	// A function that determines if the second input divides the first input
+
+	int divide(int m, int n)
+	{
+		double d2 = -1;
+
+		d2 = m % n;
+
+		if (d2 == 0)
+			return 0;
+		else
+			return 1;
+    }
+
+	// A function that determines if an odd integer greater than 3 is prime or not
+
+
+	string isOddPrime(int m)
+	{
+		double d1 = -1;
+
+		for (int j = 1; j <= (floor(0.5 * m) - 1); ++j)
+		{
+			d1 = d1 * divide(m, ((2 * j) + 1));
+		}
+
+		if (d1 == 0)
+			return "Not prime.";
+		else
+			return "Prime.";
+
+	}
+
+	// A function that determines if a positive integer is prime or not
+
+	string isPrime(int p)
+	{
+
+		if (p == 1)
+			return "Not prime.";
+
+		if (p == 2)
+			return "Prime.";
+
+		if (p == 3)
+			return "Prime.";
+
+		if (p > 3 && par(p) == "Even.")
+			return "Not prime.";
+
+		if (p > 3 && par(p) == "Odd.")
+			return isOddPrime(p);
+	}
+
+
+	
+};
+
+int main()
+{
+	Prime primal;
+
+	int p = 1;
+
+	// Determine if a positive integer is prime or not.
+
+	cout << "Enter a positive integer.";
+	cin >> p;
+
+	cout << primal.isPrime(p) << endl;
+
+	// List the prime numbers up to a positive integer greater or equal to 2.
+
+	cout << "Enter a positive integer greater or equal to 2.";
+	cin >> p;
+
+	for (int q = 1; q <= p; ++q)
+	{
+		if (primal.isPrime(q) == "Prime.")
+			cout << q << endl;
+	}
+
+	system ("PAUSE");
+
+}
+   
