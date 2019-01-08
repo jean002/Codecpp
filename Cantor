@@ -1,0 +1,387 @@
+#include <iostream>
+#include <tuple>
+#include <string>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include <sstream>
+#include <iterator>
+#include <ostream>
+
+using namespace std;
+
+class Cantor
+{
+public:
+
+	// The Cantor function was defined By Georg Cantor and later by Jean Joseph in his dissertation. The following is a program for the Cantor function from the positive rational numbers to the rational open interval (0,1).
+
+	//  A rational number is represented by an ordered pair of relatively prime integers. 
+
+	// The positive rational numbers and the rational numbers in (0,1) are indexed by the nonnegative integers.
+
+	int gcd(int u, int w)
+	{
+        vector<int> divisors1;
+
+		for (int i = 1; i <= u; ++i)
+		{
+			if (u % i == 0)
+			{
+
+				divisors1.push_back(i);
+			}
+        }
+
+		vector<int> divisors2;
+
+		for (int j = 1; j <= w; ++j)
+		{
+			if (w % j == 0)
+			{
+
+				divisors2.push_back(j);
+			}
+
+		}
+
+		sort(divisors1.begin(), divisors1.end());
+		sort(divisors2.begin(), divisors2.end());
+
+
+		vector<int> v_intersection;
+
+		set_intersection(divisors1.begin(), divisors1.end(),
+			divisors2.begin(), divisors2.end(),
+			back_inserter(v_intersection));
+
+
+		return *(max_element(v_intersection.begin(), v_intersection.end()));
+	}
+
+	
+	int index(int g, int h)
+	{
+		vector<pair<int, int>> ordP3;
+
+
+		int sum = g + h;
+
+		for (int p = 1; p <= sum; ++p)
+		{
+			for (int s = 1; s <= 2 * sum; ++s)
+			{
+				for (int m = 1; m <= 2 * sum; ++m)
+				{
+
+					auto u = make_tuple(s, m);
+
+					if (s + m == p && gcd(s, m) == 1)
+					{
+
+
+						ordP3.push_back(make_pair(get<0>(u), get<1>(u)));
+
+						
+
+					}
+				}
+			}
+		}
+
+
+		for (int j = 0; j < ordP3.size(); ++j)
+		{
+			if (ordP3[j] == make_pair(g, h))
+				return (j);
+		}
+	}
+
+
+
+	pair<double, double> cantoralg(int a, int u)
+	{
+		vector<pair<double, double>> ordP1;
+
+        if (a == 0)
+			cout << "Alright. You won't see anything!" << endl;
+		else
+		{
+
+			for (int p = 1; p <= 2 * a; ++p)
+			{
+				for (int s = 1; s <= 4 * a; ++s)
+				{
+					for (int m = 1; m <= 4 * a; ++m)
+					{
+
+						auto u = make_tuple(s, m);
+
+						if (s + m == p && gcd(s, m) == 1)
+						{
+
+
+							ordP1.push_back(make_pair(get<0>(u), get<1>(u)));
+
+
+						}
+					}
+				}
+			}
+
+		}
+
+		
+		vector<pair<double, double>> ordP2;
+
+        if (a == 0)
+			cout << "Alright. You won't see anything!" << endl;
+		else
+		{
+
+			for (int p = 1; p <= 4 * a; ++p)
+			{
+				for (int s = 1; s <= 8 * a; ++s)
+				{
+					for (int m = 1; m <= 8 * a; ++m)
+					{
+
+						auto u = make_tuple(s, m);
+
+						if (s + m == p && gcd(s, m) == 1 && s / m < 1)
+						{
+
+
+							ordP2.push_back(make_pair(get<0>(u), get<1>(u)));
+
+
+						}
+					}
+				}
+			}
+
+		}
+
+		
+		
+		if (u == 0)
+			return ordP2[0];
+
+        if (0 < u)
+		{
+			vector<double> idx1;
+			vector<double> idx2;
+
+			for (int j = 0; j <= (u - 1); ++j)
+			{
+				
+					idx1.push_back(ordP1[j].first / ordP1[j].second);
+					idx2.push_back(cantoralg(a, j).first / cantoralg(a, j).second);
+				
+			}
+
+			
+
+			if (ordP1[u].first / ordP1[u].second < *(min_element(idx1.begin(), idx1.end())))
+			{
+				for (int i = 0; ++i;)
+				{
+					if ((ordP2[i].first / ordP2[i].second) < *(min_element(idx2.begin(), idx2.end())))
+
+                    {
+						return ordP2[i];
+						break;
+					}
+					
+				}
+			}
+
+
+
+			if (ordP1[u].first / ordP1[u].second > *(max_element(idx1.begin(), idx1.end())))
+			{
+				for (int i = 0; ++i;)
+				{
+
+                   if ((ordP2[i].first / ordP2[i].second) > *(max_element(idx2.begin(), idx2.end())))
+
+                    {
+						return ordP2[i];
+						break;
+					}
+
+                 }
+			}
+
+
+            if (!(ordP1[u].first / ordP1[u].second < *(min_element(idx2.begin(), idx2.end()))) && !(ordP1[u].first / ordP1[u].second > *(max_element(idx2.begin(), idx2.end()))))
+			{
+
+				vector<double> left;
+				vector<double> right;
+				
+
+				for (int j = 0; j <= (u - 1); ++j)
+				{
+					
+					if ((ordP1[u].first / ordP1[u].second) < (ordP1[j].first / ordP1[j].second))
+						right.push_back(ordP1[j].first / ordP1[j].second);
+
+					if ((ordP1[u].first / ordP1[u].second) > (ordP1[j].first / ordP1[j].second))
+						left.push_back(ordP1[j].first / ordP1[j].second);
+				}
+
+
+				vector<int>lfidx;
+				vector<int>rgidx;
+
+				for (int j = 0; j <= (u - 1); ++j)
+				{
+					if (*(min_element(right.begin(), right.end())) == (ordP1[j].first / ordP1[j].second))
+						rgidx.push_back(j);
+
+					if (*(max_element(left.begin(), left.end())) == (ordP1[j].first / ordP1[j].second))
+						lfidx.push_back(j);
+				}
+
+				for (int i = 0; ++i;)
+				{
+					if ((cantoralg(a, lfidx[0]).first / cantoralg(a, lfidx[0]).second) < (ordP2[i].first / ordP2[i].second) && (ordP2[i].first / ordP2[i].second) < (cantoralg(a, rgidx[0]).first / cantoralg(a, rgidx[0]).second))
+					{
+						return ordP2[i];
+						break;
+					}
+				}
+			}
+
+       }
+
+	}
+};
+
+int main()
+{
+	Cantor multiple;
+
+	int a = 0;
+
+	vector<pair<double, double>> ordP1;
+
+	cout << "How many positive rational numbers do you want listed?" << endl;
+	cin >> a;
+
+	if (a == 0)
+		cout << "Alright. You won't see anything!" << endl;
+	else
+	{
+
+		for (int p = 1; p <= 2 * a; ++p)
+		{
+			for (int s = 1; s <= 4 * a; ++s)
+			{
+				for (int m = 1; m <= 4 * a; ++m)
+				{
+
+					auto u = make_tuple(s, m);
+
+					if (s + m == p && multiple.gcd(s, m) == 1)
+					{
+
+
+						ordP1.push_back(make_pair(get<0>(u), get<1>(u)));
+
+
+					}
+				}
+			}
+		}
+
+	}
+
+
+	int counter = -1;
+
+	for (int i = 0; i <= a - 1; i++)
+
+	{
+		cout << "(" << ordP1[i].first << "," << ordP1[i].second << ")" << endl;
+
+		counter++;
+
+		cout << counter << endl;
+	}
+
+
+
+	vector<pair<double, double>> ordP2;
+
+	cout << "How many rational numbers strictly between 0 and 1 do you want listed?" << endl;
+	cin >> a;
+
+	if (a == 0)
+		cout << "Alright. You won't see anything!" << endl;
+	else
+	{
+
+		for (int p = 1; p <= 4 * a; ++p)
+		{
+			for (int s = 1; s <= 8 * a; ++s)
+			{
+				for (int m = 1; m <= 8 * a; ++m)
+				{
+
+					auto u = make_tuple(s, m);
+
+					if (s + m == p && multiple.gcd(s, m) == 1 && s / m < 1)
+					{
+
+
+						ordP2.push_back(make_pair(get<0>(u), get<1>(u)));
+
+
+					}
+				}
+			}
+		}
+
+	}
+
+	int counter1 = -1;
+
+	for (int i = 0; i <= a - 1; i++)
+
+	{
+		cout << "(" << ordP2[i].first << "," << ordP2[i].second << ")" << endl;
+
+		counter1++;
+
+		cout << counter1 << endl;
+
+	}
+
+
+    int g = 1;
+	int h = 1;
+
+	cout << "Enter a positive rational number in reduced form." << endl;
+
+	cin >> g;
+
+	cin >> h;
+
+	cout << "The index of " << "(" << g << "," << h << ")" << " is " << multiple.index(g, h) << "." << endl;
+
+	
+	
+	// The values of the Cantor function on the rational numbers up to the inserted rational number are listed.
+
+	for (int k = 0; k <= multiple.index(g, h); ++k)
+		cout << multiple.cantoralg(2 * multiple.index(g, h), k).first << multiple.cantoralg(2 * multiple.index(g, h), k).second << endl;
+
+
+	
+	
+
+	
+	system("PAUSE");
+}
