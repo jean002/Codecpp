@@ -16,12 +16,15 @@ class Cantor
 {
 public:
 
-	// The Cantor function was defined By Georg Cantor and later by Jean Joseph in his dissertation. The following is a program for the Cantor function from the positive rational numbers to the rational open interval (0,1).
-
-	//  A rational number is represented by an ordered pair of relatively prime integers. 
+	// The Cantor function was defined By Georg Cantor and later by Jean Joseph in his dissertation. The following is a program 
+	// for the Cantor function from the positive rational numbers to the rational open interval (0,1).
+	
+	// In this program, a rational number is represented by an ordered pair of relatively prime integers. 
 
 	// The positive rational numbers and the rational numbers in (0,1) are indexed by the nonnegative integers.
-
+	
+	
+       // The function "gcd" computes the greatest common divisor of two integers.
 	int gcd(int u, int w)
 	{
         vector<int> divisors1;
@@ -33,7 +36,7 @@ public:
 
 				divisors1.push_back(i);
 			}
-        }
+               }
 
 		vector<int> divisors2;
 
@@ -61,7 +64,7 @@ public:
 		return *(max_element(v_intersection.begin(), v_intersection.end()));
 	}
 
-	
+	// The function "index" outputs the index of entries in a vector of pairs of integers.
 	int index(int g, int h)
 	{
 		vector<pair<int, int>> ordP3;
@@ -100,12 +103,15 @@ public:
 	}
 
 
-
+        // The function "cantoralg" assigns positive rational numbers to rational numbers in (0,1), according to Cantor's algorithm.
+	
+	// The positive rational numbers are enumerated with the vector "ordP1" and the rational numbers in (0,1) are enumerated
+	// with the vector "ordP2".
 	pair<double, double> cantoralg(int a, int u)
 	{
 		vector<pair<double, double>> ordP1;
 
-        if (a == 0)
+                if (a == 0)
 			cout << "Alright. You won't see anything!" << endl;
 		else
 		{
@@ -136,7 +142,7 @@ public:
 		
 		vector<pair<double, double>> ordP2;
 
-        if (a == 0)
+                if (a == 0)
 			cout << "Alright. You won't see anything!" << endl;
 		else
 		{
@@ -169,7 +175,7 @@ public:
 		if (u == 0)
 			return ordP2[0];
 
-        if (0 < u)
+                if (0 < u)
 		{
 			vector<double> idx1;
 			vector<double> idx2;
@@ -190,7 +196,7 @@ public:
 				{
 					if ((ordP2[i].first / ordP2[i].second) < *(min_element(idx2.begin(), idx2.end())))
 
-                    {
+                                        {
 						return ordP2[i];
 						break;
 					}
@@ -205,19 +211,19 @@ public:
 				for (int i = 0; ++i;)
 				{
 
-                   if ((ordP2[i].first / ordP2[i].second) > *(max_element(idx2.begin(), idx2.end())))
+                                        if ((ordP2[i].first / ordP2[i].second) > *(max_element(idx2.begin(), idx2.end())))
 
-                    {
+                                        {
 						return ordP2[i];
 						break;
 					}
 
-                 }
-			}
+                               }
+		       }
 
 
-            if (!(ordP1[u].first / ordP1[u].second < *(min_element(idx2.begin(), idx2.end()))) && !(ordP1[u].first / ordP1[u].second > *(max_element(idx2.begin(), idx2.end()))))
-			{
+                      if (!(ordP1[u].first / ordP1[u].second < *(min_element(idx2.begin(), idx2.end()))) && !(ordP1[u].first / ordP1[u].second > *(max_element(idx2.begin(), idx2.end()))))
+	              {
 
 				vector<double> left;
 				vector<double> right;
@@ -260,6 +266,7 @@ public:
 
 	}
 };
+
 
 int main()
 {
@@ -361,8 +368,8 @@ int main()
 
 	}
 
-
-    int g = 1;
+        // We use the "index" function above.
+        int g = 1;
 	int h = 1;
 
 	cout << "Enter a positive rational number in reduced form." << endl;
@@ -380,9 +387,6 @@ int main()
 	for (int k = 0; k <= multiple.index(g, h); ++k)
 		cout << multiple.cantoralg(2 * multiple.index(g, h), k).first << multiple.cantoralg(2 * multiple.index(g, h), k).second << endl;
 
-
-	
-	
 
 	
 	system("PAUSE");
